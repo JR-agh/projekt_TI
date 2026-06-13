@@ -8,7 +8,7 @@ builder.Services.AddDbContext<DataContext>(options => {
 });
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowReactApp", policy => {
-        policy.WithOrigins("https://localhost:63048", "http://localhost:63048") //porty Reacta
+        policy.WithOrigins("https://localhost:63048") //porty Reacta
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -18,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.UseCors("AllowReactApp");
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -32,7 +33,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseCors("AllowReactApp");
 app.MapControllers();
 
 app.MapFallbackToFile("/index.html");

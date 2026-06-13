@@ -41,7 +41,27 @@ function GymClassesList({ userId }) {
                 alert(`Błąd: ${message}`);
             }
         } catch (err) {
-            alert("Błąd połączenia z serwerem.");
+            alert("Błąd logowania.");
+        }
+    };
+
+    const handleCancel = async (classId) => {
+        if (!window.confirm("Czy na pewno chcesz zrezygnować z tych zajęć?")) return;
+
+        try {
+            const response = await fetch(`https://localhost:7276/api/gymclasses/${classId}/cancel?userId=${userId}`, {
+                method: 'DELETE'
+            });
+
+            const message = await response.text();
+
+            if (response.ok) {
+                fetchData();
+            } else {
+                alert(`Błąd: ${message}`);
+            }
+        } catch (err) {
+            alert("Błąd połączenia z serwerem podczas anulowania.");
         }
     };
 
@@ -63,6 +83,12 @@ function GymClassesList({ userId }) {
                                 <p className="text-xs font-medium text-indigo-600 mt-2">
                                     📅 {new Date(c.startTime).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' })}
                                 </p>
+                                <button
+                                    onClick={() => handleCancel(c.id)}
+                                    className="w-full mt-4 bg-red-50 text-red-600 py-1.5 rounded text-xs font-semibold hover:bg-red-100 transition border border-red-200"
+                                >
+                                    Zrezygnuj z treningu
+                                </button>
                             </div>
                         ))}
                     </div>

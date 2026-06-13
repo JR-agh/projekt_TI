@@ -60,5 +60,30 @@ namespace GymApp.Server.Controllers {
 
             return Ok(userClasses);
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateClass([FromBody] GymClass newClass) {
+            if (newClass == null) return BadRequest("Nieprawidłowe dane zajęć.");
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            _context.GymClasses.Add(newClass);
+            await _context.SaveChangesAsync();
+
+            return Ok("Zajęcia zostały pomyślnie dodane do grafiku!");
+        }
+        [HttpDelete("{id}/cancel")]
+        public async Task<IActionResult> CancelBooking(int id, [FromQuery] int userId) {
+            var booking = await _context.Bookings
+                .FirstOrDefaultAsync(b => b.GymClassId == id && b.UserId == userId);
+
+            if (booking == null) {
+                return NotFound("Nie znaleziono Twojej rezerwacji na te zajęcia.");
+            }
+
+            _context.Bookings.Remove(booking);
+            await _context.SaveChangesAsync();
+
+            return Ok("Pomyślnie zrezygnowano z zajęć.");
+        }
     }
 }

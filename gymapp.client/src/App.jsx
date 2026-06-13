@@ -2,17 +2,24 @@
 import Register from './pages/Register';
 import Login from './pages/Login';
 import GymClassesList from './components/GymClassesList';
+import AdminPanel from './components/AdminPanel';
 
 function App() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        const savedUser = localStorage.getItem('gym_user');
+        return savedUser ? JSON.parse(savedUser) : null;
+    });
     const [view, setView] = useState('login');
+    const [refreshKey, setRefreshKey] = useState(0);
 
     const handleLoginSuccess = (userData) => {
         setUser(userData);
+        localStorage.setItem('gym_user', JSON.stringify(userData));
     };
 
     const handleLogout = () => {
         setUser(null);
+        localStorage.removeItem('gym_user');
         setView('login');
     };
 
@@ -31,8 +38,11 @@ function App() {
                     </div>
                     <p className="text-gray-600">Twój adres e-mail: <span className="font-semibold">{user.email}</span></p>
                     <p className="text-gray-600">Twoja rola w systemie: <span className="font-semibold text-indigo-600">{user.role}</span></p>
-
-                    <GymClassesList userId={user.id} />
+                    {/* panel administratora: */}
+                    {user.role?.toLowerCase() === 'admin' && (
+                        <AdminPanel onClassAdded={() => setRefreshKey(prev => prev + 1)} />
+                    )}
+                    <GymClassesList userId={user.id} key={refreshKey} />
                 </div>
             </div>
         );
