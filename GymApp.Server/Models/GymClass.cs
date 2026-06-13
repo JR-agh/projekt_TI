@@ -8,14 +8,14 @@ namespace GymApp.Server.Models {
 
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; } = string.Empty; // np. "Zumba", "Crossfit"
+        public string Name { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(100)]
-        public string Room { get; set; } = string.Empty; // np. "Sala A", "Strefa Cardio"
+        public string Room { get; set; } = string.Empty;
 
         [Required]
-        public int MaxCapacity { get; set; } // Maksymalna liczba osób
+        public int MaxCapacity { get; set; }
 
         [Required]
         public DateTime StartTime { get; set; }
@@ -23,7 +23,6 @@ namespace GymApp.Server.Models {
         [Required]
         public DateTime EndTime { get; set; }
 
-        // Powiązanie z trenerem (Użytkownikiem o roli "Trainer")
         [Required]
         public int TrainerId { get; set; }
 
