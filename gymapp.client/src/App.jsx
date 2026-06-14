@@ -28,7 +28,8 @@ function App() {
             <div className="min-h-screen bg-gray-50 p-8">
                 <div className="max-w-6xl mx-auto bg-white shadow rounded-lg p-6">
                     <div className="flex justify-between items-center border-b pb-4 mb-4">
-                        <h1 className="text-2xl font-bold text-gray-900">Witaj w GymApp, {user.firstName}! 👋</h1>
+                        {/* nagłówek i przycisk wylogowania */   }
+                        <h1 className="text-2xl font-bold text-gray-900">Witaj w GymApp, {user.firstName}!</h1>
                         <button
                             onClick={handleLogout}
                             className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm font-medium"

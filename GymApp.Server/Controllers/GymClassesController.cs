@@ -14,10 +14,17 @@ namespace GymApp.Server.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetClasses() {
-            var classes = await _context.GymClasses.OrderBy(c => c.StartTime).ToListAsync();
+        public async Task<ActionResult<IEnumerable<GymClass>>> GetClasses() {
+            var classes = await _context.GymClasses.ToListAsync();
+
+            foreach (var gymClass in classes) {
+                gymClass.CurrentEnrollment = await _context.Bookings
+                    .CountAsync(b => b.GymClassId == gymClass.Id);
+            }
+
             return Ok(classes);
         }
+        
         [HttpPost("{id}/book")]
         public async Task<IActionResult> BookClass(int id, [FromQuery] int userId) {
 

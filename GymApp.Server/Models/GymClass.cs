@@ -28,5 +28,8 @@ namespace GymApp.Server.Models {
 
         [ForeignKey("TrainerId")]
         public User? Trainer { get; set; }
+
+        [NotMapped]
+        public int CurrentEnrollment { get; set; }
     }
 }

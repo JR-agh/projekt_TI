@@ -97,7 +97,7 @@ function GymClassesList({ userId }) {
             {/* grafik wszystkich zajęć */ }
             <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Dostępne zajęcia fitness</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
                     {classes.map((c) => {
                         const isEnrolled = userBookedClassIds.includes(c.id);
                         const isFull = c.currentEnrollment >= c.maxCapacity;
@@ -105,12 +105,6 @@ function GymClassesList({ userId }) {
                         return (
                             <div key={c.id} className={`bg-white border rounded-lg shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition ${isEnrolled ? 'border-green-300 bg-green-50/20' : 'border-gray-200'}`}>
                                 <div>
-                                    <div className="flex justify-between items-start mb-2">
-                                        <h4 className="text-lg font-bold text-indigo-600">{c.name}</h4>
-                                        <span className="text-xs font-semibold px-2 py-1 bg-indigo-50 text-indigo-700 rounded-full">
-                                            Max: {c.maxCapacity} osób
-                                        </span>
-                                    </div>
                                     <p className="text-sm text-gray-600 mb-2">📍 Lokalizacja: <span className="font-medium text-gray-800">{c.room}</span></p>
                                 </div>
 
@@ -118,6 +112,13 @@ function GymClassesList({ userId }) {
                                     <p>🕒 Początek: <span className="font-medium text-gray-700">{new Date(c.startTime).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' })}</span></p>
                                     <p>⏳ Koniec: <span className="font-medium text-gray-700">{new Date(c.endTime).toLocaleString('pl-PL', { timeStyle: 'short' })}</span></p>
 
+                                    {/* licznik miejsc */}
+                                    <div className="text-right">
+                                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${c.currentEnrollment >= c.maxCapacity ? 'bg-red-100 text-red-700' : 'bg-indigo-50 text-indigo-700'}`}>
+                                            Zapisanych: {c.currentEnrollment} / {c.maxCapacity}
+                                        </span>
+                                    </div>
+                                    {/* przycisk zapisu lub informacja o braku miejsc / zapisie */   }
                                     {isEnrolled ? (
                                         <button
                                             disabled
