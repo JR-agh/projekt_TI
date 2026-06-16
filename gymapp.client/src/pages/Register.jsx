@@ -1,6 +1,7 @@
 ﻿import React, { useState } from 'react';
+import './Register.css'; // Import dedykowanego pliku CSS
 
-function Register() {
+function Register({ onNavigateToLogin }) {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -31,90 +32,106 @@ function Register() {
                 body: JSON.stringify(formData)
             });
 
-            const data = await response.text();
-
             if (response.ok) {
                 setMessage('Rejestracja udana! Możesz się teraz zalogować.');
                 setFormData({ firstName: '', lastName: '', email: '', password: '' });
             } else {
-                setError(data || 'Coś poszło nie tak.');
+                const errorText = await response.text();
+                setError(errorText || 'Coś poszło nie tak podczas rejestracji.');
             }
         } catch (err) {
-            setError('Brak połączenia z serwerem.');
+            console.error("Szczegóły błędu sieci/CORS:", err);
+            setError('Brak połączenia z serwerem. Upewnij się, że backend jest uruchomiony.');
         }
     };
-    //ekran rejestracji:
+
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <h2 className="text-center text-3xl font-extrabold text-gray-900">
-                    Stwórz konto w GymApp
-                </h2>
-            </div>
+        <div className="gym-split-container-reg">
+            {/* LEWA STRONA: Formularz rejestracji */}
+            <div className="gym-reg-form-side">
+                <div className="gym-reg-card">
+                    <div className="gym-reg-header">
+                        <h2>Stwórz konto</h2>
+                        <p>Zrób pierwszy krok w stronę lepszej formy.</p>
+                    </div>
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                    <form className="space-y-6" onSubmit={handleSubmit}>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Imię</label>
-                            <input
-                                type="text"
-                                name="firstName"
-                                required
-                                value={formData.firstName}
-                                onChange={handleChange}
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            />
+                    <form className="gym-reg-form" onSubmit={handleSubmit}>
+                        <div className="gym-reg-row">
+                            <div className="gym-reg-group">
+                                <label>Imię</label>
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    required
+                                    value={formData.firstName}
+                                    onChange={handleChange}
+                                    placeholder="Jan"
+                                />
+                            </div>
+
+                            <div className="gym-reg-group">
+                                <label>Nazwisko</label>
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    required
+                                    value={formData.lastName}
+                                    onChange={handleChange}
+                                    placeholder="Kowalski"
+                                />
+                            </div>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Nazwisko</label>
-                            <input
-                                type="text"
-                                name="lastName"
-                                required
-                                value={formData.lastName}
-                                onChange={handleChange}
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Adres e-mail</label>
+                        <div className="gym-reg-group">
+                            <label>Adres e-mail</label>
                             <input
                                 type="email"
                                 name="email"
                                 required
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="kowalski@gym.pl"
                             />
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Hasło (min. 6 znaków)</label>
+                        <div className="gym-reg-group">
+                            <label>Hasło (min. 6 znaków)</label>
                             <input
                                 type="password"
                                 name="password"
                                 required
                                 value={formData.password}
                                 onChange={handleChange}
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="••••••••"
                             />
                         </div>
 
-                        {message && <div className="text-sm text-green-600 bg-green-50 p-2 rounded">{message}</div>}
-                        {error && <div className="text-sm text-red-600 bg-red-50 p-2 rounded">{error}</div>}
+                        {message && <div className="gym-reg-success">{message}</div>}
+                        {error && <div className="gym-reg-error">{error}</div>}
 
-                        <div>
-                            <button
-                                type="submit"
-                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                                Zarejestruj się
-                            </button>
-                        </div>
+                        <button type="submit" className="gym-reg-btn">
+                            Zarejestruj się
+                        </button>
                     </form>
+
+                    <div className="gym-reg-footer">
+                        <span>Masz już konto?</span>
+                        <button type="button" onClick={onNavigateToLogin} className="gym-reg-link">
+                            Zaloguj się
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* PRAWA STRONA: Panel motywacyjny */}
+            <div className="gym-reg-visual-side">
+                <div className="gym-reg-overlay"></div>
+                <div className="gym-reg-content">
+                    <span className="gym-reg-badge">Dołącz do klubu</span>
+                    <h1>Zbuduj swoją najlepszą formę</h1>
+                    <p className="gym-reg-quote">
+                        "Sukces to suma małych wysiłków, powtarzanych dzień po dniu. Zapisz się na zajęcia grupowe i trenuj z najlepszymi."
+                    </p>
                 </div>
             </div>
         </div>
