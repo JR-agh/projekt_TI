@@ -1,0 +1,187 @@
+/.grafik-kontener {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 12px;
+    font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;/
+    background-color: #110c1f;
+    padding: 30px; 
+    min-height: 100vh; 
+}
+
+.grafik-kontener {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 24px;
+    font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+}
+
+.sekcja-tytul-glowny, .sekcja-tytul-niebieski {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    margin-bottom: 20px;
+    text-transform: none;
+    text-align: left;
+}
+.sekcja-rezerwacji {
+    background: #16102b;
+    border: 1px solid rgba(138, 43, 226, 0.2);
+    border-radius: 12px;
+    padding: 24px;
+}
+
+
+.siatka-rezerwacji, .siatka-zajec {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+}
+
+
+.karta-zajec, .karta-rezerwacji {
+    background: #1a1333; 
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.2s ease-in-out;
+}
+
+
+.standard-border:hover {
+    border-color: rgba(138, 43, 226, 0.6);
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
+    transform: translateY(-2px);
+}
+
+
+.zapisany-border {
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-left: 4px solid #10b981;
+    background: #131b2e;
+}
+
+
+.nazwa-zajec {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+    text-align: left;
+}
+
+.lokalizacja-sala {
+    font-size: 0.85rem;
+    color: #a29bfe; 
+    text-align: left;
+}
+
+.pogrubienie-ciemne {
+    font-weight: 600;
+    color: #ffffff;
+    margin-left: 4px;
+}
+
+
+.dol-karty {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 14px;
+    margin-top: 16px;
+}
+
+.czas-zajec {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.czas-zajec span {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+
+.kontener-licznika {
+    display: flex;
+    justify-content: flex-start;
+    margin: 4px 0 12px 0;
+}
+
+.badge-miejsca {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+.badge-wolne {
+    color: #a29bfe;
+}
+
+.badge-pelno {
+    color: #ef4444;
+}
+
+
+.btn-status {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+
+.btn-zapisz {
+    background: linear-gradient(90deg, #6c5ce7 0%, #8a2be2 100%);
+    color: #ffffff;
+}
+
+.btn-zapisz:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 12px rgba(138, 43, 226, 0.4);
+}
+
+
+.btn-sukces {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    cursor: not-allowed;
+}
+
+
+.btn-zablokowany {
+    background: #241c3f;
+    color: rgba(255, 255, 255, 0.25);
+    cursor: not-allowed;
+}
+
+
+.przycisk-rezygnuj {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px;
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.przycisk-rezygnuj:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+}

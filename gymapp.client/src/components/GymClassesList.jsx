@@ -1,10 +1,10 @@
 ﻿import React, { useEffect, useState } from 'react';
+import './GymClassesList.css';
 
 function GymClassesList({ userId }) {
     const [classes, setClasses] = useState([]);
     const [userBookedClassIds, setUserBookedClassIds] = useState([]);
     const [loading, setLoading] = useState(true);
-
 
     const fetchData = async () => {
         try {
@@ -65,27 +65,28 @@ function GymClassesList({ userId }) {
         }
     };
 
-    if (loading) return <p className="text-gray-500 animate-pulse">Ładowanie grafiku zajęć...</p>;
+    if (loading) return <p className="tekst-ladowania">Ładowanie grafiku zajęć...</p>;
 
     const myBookedClasses = classes.filter(c => userBookedClassIds.includes(c.id));
 
     return (
-        <div className="space-y-10">
-            {/* zajęcia, na które jest się zapisanym */}
+        <div className="grafik-kontener">
+
+            {/* Sekcja 1: Zajęcia zarezerwowane przez zalogowanego użytkownika */}
             {myBookedClasses.length > 0 && (
-                <div className="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
-                    <h3 className="text-lg font-bold text-indigo-900 mb-4">⭐ Twoje zarezerwowane treningi</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="sekcja-rezerwacji">
+                    <h3 className="sekcja-tytul-niebieski">⭐ Twoje zarezerwowane treningi</h3>
+                    <div className="siatka-rezerwacji">
                         {myBookedClasses.map(c => (
-                            <div key={c.id} className="bg-white p-4 rounded-lg shadow-sm border border-indigo-200">
-                                <h4 className="font-bold text-gray-950">{c.name}</h4>
-                                <p className="text-xs text-gray-500 mt-1">📍 {c.room}</p>
-                                <p className="text-xs font-medium text-indigo-600 mt-2">
-                                    📅 {new Date(c.startTime).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' })}
+                            <div key={c.id} className="karta-rezerwacji">
+                                <h4 className="nazwa-zajec">{c.name}</h4>
+                                <p className="lokalizacja-sala"> {c.room}</p>
+                                <p className="data-treningu">
+                                     {new Date(c.startTime).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' })}
                                 </p>
                                 <button
                                     onClick={() => handleCancel(c.id)}
-                                    className="w-full mt-4 bg-red-50 text-red-600 py-1.5 rounded text-xs font-semibold hover:bg-red-100 transition border border-red-200"
+                                    className="przycisk-rezygnuj"
                                 >
                                     Zrezygnuj z treningu
                                 </button>
@@ -94,48 +95,48 @@ function GymClassesList({ userId }) {
                     </div>
                 </div>
             )}
-            {/* grafik wszystkich zajęć */ }
-            <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Dostępne zajęcia fitness</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+
+            {/* Sekcja 2: Grafik wszystkich dostępnych zajęć */}
+            <div className="sekcja-wszystkie-zajecia">
+                <h3 className="sekcja-tytul-glowny">Dostępne zajęcia fitness</h3>
+                <div className="siatka-zajec">
                     {classes.map((c) => {
                         const isEnrolled = userBookedClassIds.includes(c.id);
                         const isFull = c.currentEnrollment >= c.maxCapacity;
 
+                        // Dynamiczna klasa: zielona ramka, jeśli użytkownik jest już zapisany
+                        const klasaKarty = `karta-zajec ${isEnrolled ? 'zapisany-border' : 'standard-border'}`;
+
                         return (
-                            <div key={c.id} className={`bg-white border rounded-lg shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition ${isEnrolled ? 'border-green-300 bg-green-50/20' : 'border-gray-200'}`}>
-                                <div>
-                                    <p className="text-sm text-gray-600 mb-2">📍 Lokalizacja: <span className="font-medium text-gray-800">{c.room}</span></p>
+                            <div key={c.id} className={klasaKarty}>
+                                <div className="zawartosc-karty">
+                                    <h4 className="nazwa-zajec">{c.name}</h4>
+                                    <p className="lokalizacja-sala"> Lokalizacja: <span className="pogrubienie-ciemne">{c.room}</span></p>
                                 </div>
 
-                                <div className="border-t pt-3 mt-4 text-xs text-gray-500 space-y-1">
-                                    <p>🕒 Początek: <span className="font-medium text-gray-700">{new Date(c.startTime).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' })}</span></p>
-                                    <p>⏳ Koniec: <span className="font-medium text-gray-700">{new Date(c.endTime).toLocaleString('pl-PL', { timeStyle: 'short' })}</span></p>
+                                <div className="dol-karty">
+                                    <p className="czas-zajec"> Początek: <span>{new Date(c.startTime).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' })}</span></p>
+                                    <p className="czas-zajec"> Koniec: <span>{new Date(c.endTime).toLocaleString('pl-PL', { timeStyle: 'short' })}</span></p>
 
-                                    {/* licznik miejsc */}
-                                    <div className="text-right">
-                                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${c.currentEnrollment >= c.maxCapacity ? 'bg-red-100 text-red-700' : 'bg-indigo-50 text-indigo-700'}`}>
+                                    {/* Licznik wolnych miejsc */}
+                                    <div className="kontener-licznika">
+                                        <span className={`badge-miejsca ${isFull ? 'badge-pelno' : 'badge-wolne'}`}>
                                             Zapisanych: {c.currentEnrollment} / {c.maxCapacity}
                                         </span>
                                     </div>
-                                    {/* przycisk zapisu lub informacja o braku miejsc / zapisie */   }
+
+                                    {/* Warunkowe przyciski (Zapisany / Pełno / Zapisz się) */}
                                     {isEnrolled ? (
-                                        <button
-                                            disabled
-                                            className="w-full mt-4 bg-green-100 text-green-700 py-2 rounded font-medium cursor-not-allowed text-center"
-                                        >
+                                        <button disabled className="btn-status btn-sukces">
                                             ✓ Jesteś zapisany(a)
                                         </button>
                                     ) : isFull ? (
-                                        <button
-                                            disabled
-                                            className="w-full mt-4 bg-gray-100 text-gray-400 py-2 rounded font-medium cursor-not-allowed text-center"
-                                        >
+                                        <button disabled className="btn-status btn-zablokowany">
                                             Brak wolnych miejsc
                                         </button>
                                     ) : (
                                         <button
-                                            className="w-full mt-4 bg-indigo-600 text-white py-2 rounded font-medium hover:bg-indigo-700 transition"
+                                            className="btn-status btn-zapisz"
                                             onClick={() => handleBooking(c.id)}
                                         >
                                             Zapisz się
