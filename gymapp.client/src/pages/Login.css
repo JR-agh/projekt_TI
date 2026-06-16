@@ -1,0 +1,218 @@
+.gym-split-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+    background-color: var(--bg);
+    transition: background-color 0.3s ease;
+}
+
+.gym-auth-form-side {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+body:not(.light-mode) .gym-auth-form-side {
+    background: linear-gradient(135deg, var(--bg) 0%, #160f29 100%);
+}
+
+body.light-mode .gym-auth-form-side {
+    background: var(--bg);
+}
+
+.gym-auth-card {
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--card-bg);
+    border: 1px solid rgba(138, 43, 226, 0.15);
+    border-radius: 16px;
+    padding: 40px 32px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease;
+}
+
+.gym-auth-header {
+    margin-bottom: 28px;
+}
+
+.gym-auth-header h2 {
+    color: var(--text-h);
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.5px;
+    }
+
+.gym-auth-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0;
+    }
+
+.gym-auth-form, .gym-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.gym-auth-form {
+    gap: 20px;
+}
+
+.gym-form-group {
+    gap: 8px;
+}
+
+.gym-form-group label {
+    color: var(--text-h);
+    font-size: 14px;
+    font-weight: 600;
+    }
+
+.gym-form-group input {
+    background-color: var(--input-bg);
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: var(--text-h);
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.gym-form-group input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.gym-error-message {
+    background-color: rgba(234, 32, 39, 0.1);
+    border: 1px solid #ea2027;
+    color: #ff7675;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.gym-btn-primary {
+    background: linear-gradient(90deg, #6c5ce7 0%, var(--accent) 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.gym-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px var(--accent-glow);
+}
+
+.gym-auth-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.gym-link-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.gym-link-btn:hover {
+    color: #6c5ce7;
+}
+
+.gym-auth-visual-side {
+    display: none;
+    position: relative;
+    background: linear-gradient(rgba(26, 18, 53, 0.65), rgba(17, 12, 31, 0.85)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop') center/cover;
+    padding: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+.gym-visual-content {
+    position: relative;
+    z-index: 2;
+    max-width: 500px;
+}
+
+.gym-badge {
+    background-color: rgba(138, 43, 226, 0.3);
+    border: 1px solid var(--accent);
+    color: #e0dffc;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.gym-visual-content h1 {
+    color: #ffffff;
+    font-size: 42px;
+    font-weight: 900;
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    line-height: 1.1;
+}
+
+.gym-quote {
+    color: #d1cbf7;
+    font-size: 18px;
+    line-height: 1.6;
+    font-style: italic;
+    margin: 0 0 40px 0;
+    border-left: 4px solid var(--accent);
+    padding-left: 16px;
+}
+
+.gym-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.gym-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.gym-feature-icon {
+    font-size: 20px;
+}
+
+@media (min-width: 960px) {
+    .gym-split-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .gym-auth-visual-side {
+        display: flex;
+    }
+}

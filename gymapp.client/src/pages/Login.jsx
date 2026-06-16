@@ -1,6 +1,7 @@
 ﻿import React, { useState } from 'react';
+import './Login.css';
 
-function Login({ onLoginSuccess }) {
+function Login({ onLoginSuccess, onNavigateToRegister }) {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
 
@@ -10,7 +11,7 @@ function Login({ onLoginSuccess }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
+        setError(''); 
 
         try {
             const response = await fetch('https://localhost:7276/api/auth/login', {
@@ -22,64 +23,100 @@ function Login({ onLoginSuccess }) {
                 })
             });
 
-            const data = await response.json();
-
             if (response.ok) {
+                const data = await response.json();
                 onLoginSuccess(data.user);
-            } else {
-                setError(data.message || 'Nieprawidłowy e-mail lub hasło.');
             }
+
+            else {
+                setError('Nieprawidłowy e-mail lub hasło.');
+            }
+
         } catch (err) {
-            setError('Brak połączenia z serwerem.');
+          
+            console.error("Błąd sieci:", err);
+            setError('Brak połączenia z serwerem. Upewnij się, że backend jest uruchomiony.');
         }
     };
-    // ekran logowania:
-    return (
-        <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <h2 className="text-center text-3xl font-extrabold text-gray-900">
-                    Zaloguj się do GymApp
-                </h2>
-            </div>
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                    <form className="space-y-6" onSubmit={handleSubmit}>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Adres e-mail</label>
+    return (
+        <div className="gym-split-container">
+            {/*Formularz logowania */}
+            <div className="gym-auth-form-side">
+                <div className="gym-auth-card">
+                    <div className="gym-auth-header">
+                        <h2>Zaloguj się</h2>
+                        <p>Wprowadź swoje dane, aby przejść do panelu.</p>
+                    </div>
+
+                    <form className="gym-auth-form" onSubmit={handleSubmit}>
+                        <div className="gym-form-group">
+                            <label>Adres e-mail</label>
                             <input
                                 type="email"
                                 name="email"
                                 required
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="twoj@email.com"
                             />
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Hasło</label>
+                        <div className="gym-form-group">
+                            <label>Hasło</label>
                             <input
                                 type="password"
                                 name="password"
                                 required
                                 value={formData.password}
                                 onChange={handleChange}
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="••••••••"
                             />
                         </div>
 
-                        {error && <div className="text-sm text-red-600 bg-red-50 p-2 rounded">{error}</div>}
-
-                        <div>
-                            <button
-                                type="submit"
-                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        {/* Komunikat o błędzie */}
+                        {error && (
+                            <div
+                                className="gym-error-message"
+                                style={{
+                                    backgroundColor: 'rgba(234, 32, 39, 0.15)',
+                                    border: '1px solid #ea2027',
+                                    color: '#ff7675',
+                                    padding: '12px',
+                                    borderRadius: '8px',
+                                    textAlign: 'center',
+                                    fontWeight: 'bold',
+                                    marginTop: '15px',
+                                    fontSize: '14px'
+                                }}
                             >
-                                Zaloguj się
-                            </button>
-                        </div>
+                                {error}
+                            </div>
+                        )}
+
+                        <button type="submit" className="gym-btn-primary">
+                            Zaloguj się
+                        </button>
                     </form>
+
+                    <div className="gym-auth-footer">
+                        <span>Nie masz jeszcze konta?</span>
+                        <button type="button" onClick={onNavigateToRegister} className="gym-link-btn">
+                            Zarejestruj się
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Grafika motywacyjna */}
+            <div className="gym-auth-visual-side">
+                <div className="gym-visual-overlay"></div>
+                <div className="gym-visual-content">
+                    <span className="gym-badge">GymApp Premium</span>
+                    <h1>Witaj w strefie siły</h1>
+                    <p className="gym-quote">
+                        "Twój jedyny limit to Ten, który sam sobie postawisz. Zaloguj się, zaplanuj trening i zrealizuj swoje cele."
+                    </p>
                 </div>
             </div>
         </div>
