@@ -1,4 +1,5 @@
 ﻿import React, { useState } from 'react';
+import './AdminPanel.css'; 
 
 function AdminPanel({ onClassAdded }) {
     const [formData, setFormData] = useState({
@@ -34,7 +35,7 @@ function AdminPanel({ onClassAdded }) {
 
             if (response.ok) {
                 setMessage('✅ ' + text);
-                setFormData({ name: '', room: '', maxCapacity: 10, startTime: '', endTime: '', trainerId: 1 });
+                setFormData({ name: '', room: '', maxCapacity: 10, startTime: '', endTime: '', trainerId: 2 });
                 if (onClassAdded) onClassAdded();
             } else {
                 setMessage('❌ Błąd: ' + text);
@@ -45,49 +46,43 @@ function AdminPanel({ onClassAdded }) {
     };
 
     return (
-        <div className="bg-gray-900 text-white p-6 rounded-xl shadow-lg mb-10">
-            <h3 className="text-xl font-bold text-amber-400 mb-4">🛠️ Panel Administratora: Dodaj nowe zajęcia</h3>
+        <div className="admin-panel-kontener">
+            <h3 className="admin-panel-tytul">Panel Administratora: Dodaj nowe zajęcia</h3>
 
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label className="block text-xs font-semibold text-gray-400">Nazwa zajęć</label>
-                    <input type="text" name="name" required value={formData.name} onChange={handleChange}
-                        className="mt-1 block w-full bg-gray-800 border border-gray-700 rounded p-2 text-white text-sm focus:outline-none focus:border-amber-400" />
+            <form onSubmit={handleSubmit} className="admin-formularz-siatka">
+                <div className="admin-form-group">
+                    <label>Nazwa zajęć</label>
+                    <input type="text" name="name" required value={formData.name} onChange={handleChange} />
                 </div>
 
-                <div>
-                    <label className="block text-xs font-semibold text-gray-400">Sala / Lokalizacja</label>
-                    <input type="text" name="room" required value={formData.room} onChange={handleChange}
-                        className="mt-1 block w-full bg-gray-800 border border-gray-700 rounded p-2 text-white text-sm focus:outline-none focus:border-amber-400" />
+                <div className="admin-form-group">
+                    <label>Sala / Lokalizacja</label>
+                    <input type="text" name="room" required value={formData.room} onChange={handleChange} />
                 </div>
 
-                <div>
-                    <label className="block text-xs font-semibold text-gray-400">Maksymalna liczba osób</label>
-                    <input type="number" name="maxCapacity" required min="1" value={formData.maxCapacity} onChange={handleChange}
-                        className="mt-1 block w-full bg-gray-800 border border-gray-700 rounded p-2 text-white text-sm focus:outline-none focus:border-amber-400" />
+                <div className="admin-form-group">
+                    <label>Maksymalna liczba osób</label>
+                    <input type="number" name="maxCapacity" required min="1" value={formData.maxCapacity} onChange={handleChange} />
                 </div>
 
-                <div>
-                    <label className="block text-xs font-semibold text-gray-400">ID Trenera (odpowiedzialnego)</label>
-                    <input type="number" name="trainerId" required value={formData.trainerId} onChange={handleChange}
-                        className="mt-1 block w-full bg-gray-800 border border-gray-700 rounded p-2 text-white text-sm focus:outline-none focus:border-amber-400" />
+                <div className="admin-form-group">
+                    <label>ID Trenera (odpowiedzialnego)</label>
+                    <input type="number" name="trainerId" required value={formData.trainerId} onChange={handleChange} />
                 </div>
 
-                <div>
-                    <label className="block text-xs font-semibold text-gray-400">Czas rozpoczęcia</label>
-                    <input type="datetime-local" name="startTime" required value={formData.startTime} onChange={handleChange}
-                        className="mt-1 block w-full bg-gray-800 border border-gray-700 rounded p-2 text-white text-sm focus:outline-none focus:border-amber-400" />
+                <div className="admin-form-group">
+                    <label>Czas rozpoczęcia</label>
+                    <input type="datetime-local" name="startTime" required value={formData.startTime} onChange={handleChange} />
                 </div>
 
-                <div>
-                    <label className="block text-xs font-semibold text-gray-400">Czas zakończenia</label>
-                    <input type="datetime-local" name="endTime" required value={formData.endTime} onChange={handleChange}
-                        className="mt-1 block w-full bg-gray-800 border border-gray-700 rounded p-2 text-white text-sm focus:outline-none focus:border-amber-400" />
+                <div className="admin-form-group">
+                    <label>Czas zakończenia</label>
+                    <input type="datetime-local" name="endTime" required value={formData.endTime} onChange={handleChange} />
                 </div>
 
-                <div className="md:col-span-2 flex items-center justify-between mt-2">
-                    {message && <p className="text-sm font-medium">{message}</p>}
-                    <button type="submit" className="ml-auto bg-amber-500 text-gray-950 font-bold px-6 py-2 rounded hover:bg-amber-400 transition text-sm">
+                <div className="admin-form-dol">
+                    {message && <p className="admin-wiadomosc">{message}</p>}
+                    <button type="submit" className="admin-btn-wyslij">
                         Dodaj do bazy danych
                     </button>
                 </div>

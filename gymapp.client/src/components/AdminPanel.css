@@ -1,0 +1,106 @@
+.admin-panel-kontener {
+    background-color: var(--card-bg);
+    border: 1px solid rgba(138, 43, 226, 0.15);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.admin-panel-tytul {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-h);
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-formularz-siatka {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+@media (min-width: 768px) {
+    .admin-formularz-siatka {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.admin-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.admin-form-group label {
+   font-size: 0.75rem;
+   font-weight: 700;
+   color: var(--text-muted);
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+}
+
+.admin-form-group input {
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--text-h);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.admin-form-group input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+body.light-mode .admin-form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(0); 
+}
+
+body:not(.light-mode) .admin-form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); 
+}
+
+.admin-form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+.admin-form-dol {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.admin-wiadomosc {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-h);
+}
+
+.admin-btn-wyslij {
+    margin-left: auto;
+    background: linear-gradient(90deg, #6c5ce7 0%, var(--accent) 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    transition: all 0.15s ease;
+}
+
+.admin-btn-wyslij:hover {
+    box-shadow: 0 4px 12px var(--accent-glow);
+    transform: translateY(-1px);
+}
