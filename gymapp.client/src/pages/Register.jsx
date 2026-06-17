@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import './Register.css'; // Import dedykowanego pliku CSS
+import './Register.css';
 
 function Register({ onNavigateToLogin }) {
     const [formData, setFormData] = useState({
@@ -47,7 +47,7 @@ function Register({ onNavigateToLogin }) {
 
     return (
         <div className="gym-split-container-reg">
-            {/* LEWA STRONA: Formularz rejestracji */}
+
             <div className="gym-reg-form-side">
                 <div className="gym-reg-card">
                     <div className="gym-reg-header">
@@ -123,7 +123,6 @@ function Register({ onNavigateToLogin }) {
                 </div>
             </div>
 
-            {/* PRAWA STRONA: Panel motywacyjny */}
             <div className="gym-reg-visual-side">
                 <div className="gym-reg-overlay"></div>
                 <div className="gym-reg-content">

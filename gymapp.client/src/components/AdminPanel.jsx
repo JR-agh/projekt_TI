@@ -11,11 +11,11 @@ function AdminPanel({ onClassAdded }) {
         trainerId: 2
     });
     const [message, setMessage] = useState('');
-    const [classesList, setClassesList] = useState([]); // Stan na listę zajęć
+    const [classesList, setClassesList] = useState([]); 
 
     const API_URL = 'https://localhost:7276/api/gymclasses';
 
-    // Funkcja pobierająca zajęcia z serwera
+    // Funkcja pobierająca zajęcia 
     const fetchClasses = async () => {
         try {
             const response = await fetch(API_URL);
@@ -57,7 +57,7 @@ function AdminPanel({ onClassAdded }) {
             if (response.ok) {
                 setMessage('✅ Zajęcia zostały pomyślnie dodane do bazy danych!');
                 setFormData({ name: '', room: '', maxCapacity: 10, startTime: '', endTime: '', trainerId: 2 });
-                fetchClasses(); // Odświeżenie listy po dodaniu
+                fetchClasses(); 
                 if (onClassAdded) onClassAdded();
             } else {
                 if (text.includes("FOREIGN KEY") || text.includes("TrainerId")) {
@@ -90,7 +90,7 @@ function AdminPanel({ onClassAdded }) {
 
             if (response.ok) {
                 setMessage('🗑️ ' + text);
-                fetchClasses(); // Odświeżenie listy po usunięciu
+                fetchClasses(); 
                 if (onClassAdded) onClassAdded();
             } else {
                 setMessage('❌ Błąd podczas usuwania: ' + text);

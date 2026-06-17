@@ -41,7 +41,6 @@ function Login({ onLoginSuccess, onNavigateToRegister }) {
 
     return (
         <div className="gym-split-container">
-            {/*Formularz logowania */}
             <div className="gym-auth-form-side">
                 <div className="gym-auth-card">
                     <div className="gym-auth-header">
@@ -74,7 +73,6 @@ function Login({ onLoginSuccess, onNavigateToRegister }) {
                             />
                         </div>
 
-                        {/* Komunikat o błędzie */}
                         {error && (
                             <div
                                 className="gym-error-message"
@@ -108,7 +106,6 @@ function Login({ onLoginSuccess, onNavigateToRegister }) {
                 </div>
             </div>
 
-            {/* Grafika motywacyjna */}
             <div className="gym-auth-visual-side">
                 <div className="gym-visual-overlay"></div>
                 <div className="gym-visual-content">

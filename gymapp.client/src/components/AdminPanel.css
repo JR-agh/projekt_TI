@@ -35,29 +35,29 @@
     gap: 6px;
 }
 
-    .admin-form-group label {
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
+.admin-form-group label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-    .admin-form-group input {
-        background-color: var(--input-bg);
-        border: 1px solid var(--input-border);
-        border-radius: 8px;
-        padding: 12px;
-        color: var(--text-h);
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-    }
+.admin-form-group input {
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--text-h);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
 
-        .admin-form-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
+.admin-form-group input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
 
 body.light-mode .admin-form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     filter: invert(0);
@@ -104,10 +104,6 @@ body:not(.light-mode) .admin-form-group input[type="datetime-local"]::-webkit-ca
         box-shadow: 0 4px 12px var(--accent-glow);
         transform: translateY(-1px);
     }
-
-/* ==========================================================================
-   🆕 NOWE STYLE DLA SEKCJI USUWANIA I LISTY ZAJĘĆ
-   ========================================================================== */
 
 .admin-separator {
     border: 0;
@@ -170,8 +166,8 @@ body:not(.light-mode) .admin-form-group input[type="datetime-local"]::-webkit-ca
     transition: all 0.15s ease;
 }
 
-    .admin-btn-usun:hover {
-        background-color: #ff6b81;
-        box-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
-        transform: translateY(-1px);
-    }
+.admin-btn-usun:hover {
+    background-color: #ff6b81;
+    box-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
+    transform: translateY(-1px);
+}

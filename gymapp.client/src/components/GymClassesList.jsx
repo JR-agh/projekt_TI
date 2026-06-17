@@ -72,7 +72,6 @@ function GymClassesList({ userId }) {
     return (
         <div className="grafik-kontener">
 
-            {/* Sekcja 1: Zajęcia zarezerwowane przez zalogowanego użytkownika */}
             {myBookedClasses.length > 0 && (
                 <div className="sekcja-rezerwacji">
                     <h3 className="sekcja-tytul-niebieski">⭐ Twoje zarezerwowane treningi</h3>
@@ -96,7 +95,6 @@ function GymClassesList({ userId }) {
                 </div>
             )}
 
-            {/* Sekcja 2: Grafik wszystkich dostępnych zajęć */}
             <div className="sekcja-wszystkie-zajecia">
                 <h3 className="sekcja-tytul-glowny">Dostępne zajęcia fitness</h3>
                 <div className="siatka-zajec">
@@ -104,7 +102,6 @@ function GymClassesList({ userId }) {
                         const isEnrolled = userBookedClassIds.includes(c.id);
                         const isFull = c.currentEnrollment >= c.maxCapacity;
 
-                        // Dynamiczna klasa: zielona ramka, jeśli użytkownik jest już zapisany
                         const klasaKarty = `karta-zajec ${isEnrolled ? 'zapisany-border' : 'standard-border'}`;
 
                         return (
@@ -118,14 +115,12 @@ function GymClassesList({ userId }) {
                                     <p className="czas-zajec"> Początek: <span>{new Date(c.startTime).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' })}</span></p>
                                     <p className="czas-zajec"> Koniec: <span>{new Date(c.endTime).toLocaleString('pl-PL', { timeStyle: 'short' })}</span></p>
 
-                                    {/* Licznik wolnych miejsc */}
                                     <div className="kontener-licznika">
                                         <span className={`badge-miejsca ${isFull ? 'badge-pelno' : 'badge-wolne'}`}>
                                             Zapisanych: {c.currentEnrollment} / {c.maxCapacity}
                                         </span>
                                     </div>
 
-                                    {/* Warunkowe przyciski (Zapisany / Pełno / Zapisz się) */}
                                     {isEnrolled ? (
                                         <button disabled className="btn-status btn-sukces">
                                             ✓ Jesteś zapisany(a)
