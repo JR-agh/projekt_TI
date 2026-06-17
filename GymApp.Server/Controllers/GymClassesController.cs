@@ -68,11 +68,40 @@ namespace GymApp.Server.Controllers {
             return Ok(userClasses);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateClass([FromBody] GymClass newClass) {
+        public async Task<IActionResult> CreateClass([FromBody] GymClass newClass)
+        {
             if (newClass == null) return BadRequest("Nieprawidłowe dane zajęć.");
-
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
+            //blokada błędnych godzin 
+            if (newClass.StartTime >= newClass.EndTime)
+            {
+                return BadRequest("Czas rozpoczęcia zajęć musi być wcześniejszy niż czas zakończenia.");
+            }
+            var user = await _context.Users.FindAsync(newClass.TrainerId);
+            if (user == null)
+            {
+                return BadRequest("Podany trener nie istnieje w systemie.");
+            }
+            if (user.Role.ToLower() != "trainer")
+            {
+                return BadRequest("Wskazany użytkownik nie jest trenerem (posiada inną rolę w systemie).");
+            }
+            var trainerClasses = await _context.GymClasses
+                .Where(c => c.TrainerId == newClass.TrainerId)
+                .ToListAsync();
+            var newStart = newClass.StartTime;
+            var newEnd = newClass.EndTime;
+            bool isTrainerBusy = trainerClasses.Any(c =>
+                (newStart >= c.StartTime && newStart < c.EndTime) || 
+                (newEnd > c.StartTime && newEnd <= c.EndTime) ||     
+                (newStart <= c.StartTime && newEnd >= c.EndTime)   
+            );
+
+            if (isTrainerBusy)
+            {
+                return BadRequest("Ten trener prowadzi już inne zajęcia w tych godzinach!");
+            }
             _context.GymClasses.Add(newClass);
             await _context.SaveChangesAsync();
 
@@ -91,6 +120,38 @@ namespace GymApp.Server.Controllers {
             await _context.SaveChangesAsync();
 
             return Ok("Pomyślnie zrezygnowano z zajęć.");
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteClass(int id)
+        {
+            var gymClass = await _context.GymClasses.FindAsync(id);
+
+            if (gymClass == null)
+            {
+                return NotFound("Nie znaleziono takich zajęć w bazie danych.");
+            }
+
+            try
+            {
+                var relatedBookings = await _context.Bookings
+                    .Where(b => b.GymClassId == id)
+                    .ToListAsync();
+
+                if (relatedBookings.Any())
+                {
+                    _context.Bookings.RemoveRange(relatedBookings);
+                }
+
+                _context.GymClasses.Remove(gymClass);
+
+                await _context.SaveChangesAsync();
+
+                return Ok("Zajęcia oraz powiązane rezerwacje zostały pomyślnie usunięte z grafiku.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Błąd serwera podczas usuwania: {ex.Message}");
+            }
         }
     }
 }
