@@ -1,5 +1,5 @@
-﻿import React, { useState } from 'react';
-import './AdminPanel.css'; 
+﻿import React, { useState, useEffect } from 'react';
+import './AdminPanel.css';
 
 function AdminPanel({ onClassAdded }) {
     const [formData, setFormData] = useState({
@@ -11,6 +11,27 @@ function AdminPanel({ onClassAdded }) {
         trainerId: 2
     });
     const [message, setMessage] = useState('');
+    const [classesList, setClassesList] = useState([]); // Stan na listę zajęć
+
+    const API_URL = 'https://localhost:7276/api/gymclasses';
+
+    // Funkcja pobierająca zajęcia z serwera
+    const fetchClasses = async () => {
+        try {
+            const response = await fetch(API_URL);
+            if (response.ok) {
+                const data = await response.json();
+                setClassesList(data);
+            }
+        } catch (err) {
+            console.error("Błąd pobierania zajęć:", err);
+        }
+    };
+
+    // Pobranie danych na starcie komponentu
+    useEffect(() => {
+        fetchClasses();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,7 +46,7 @@ function AdminPanel({ onClassAdded }) {
         setMessage('');
 
         try {
-            const response = await fetch('https://localhost:7276/api/gymclasses', {
+            const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
@@ -34,14 +55,48 @@ function AdminPanel({ onClassAdded }) {
             const text = await response.text();
 
             if (response.ok) {
-                setMessage('✅ ' + text);
+                setMessage('✅ Zajęcia zostały pomyślnie dodane do bazy danych!');
                 setFormData({ name: '', room: '', maxCapacity: 10, startTime: '', endTime: '', trainerId: 2 });
+                fetchClasses(); // Odświeżenie listy po dodaniu
                 if (onClassAdded) onClassAdded();
             } else {
-                setMessage('❌ Błąd: ' + text);
+                if (text.includes("FOREIGN KEY") || text.includes("TrainerId")) {
+                    setMessage('❌ Błąd: Podany trener (ID: ' + formData.trainerId + ') nie istnieje w systemie.');
+                }
+                else if (text.includes("date") || text.includes("time") || text.includes("overlap") || text.includes("termin")) {
+                    setMessage('❌ Błąd: Nieprawidłowy termin zajęć. Sprawdź czy godziny są poprawne lub czy sala/trener są wolni.');
+                }
+                else {
+                    setMessage('❌ Błąd: ' + text);
+                }
             }
         } catch (err) {
             setMessage('❌ Brak połączenia z serwerem.');
+        }
+    };
+
+    // Funkcja usuwania zajęć
+    const handleDelete = async (classId) => {
+        if (!window.confirm("Czy na pewno chcesz usunąć te zajęcia? Spowoduje to anulowanie rezerwacji uczestników.")) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/${classId}`, {
+                method: 'DELETE'
+            });
+
+            const text = await response.text();
+
+            if (response.ok) {
+                setMessage('🗑️ ' + text);
+                fetchClasses(); // Odświeżenie listy po usunięciu
+                if (onClassAdded) onClassAdded();
+            } else {
+                setMessage('❌ Błąd podczas usuwania: ' + text);
+            }
+        } catch (err) {
+            setMessage('❌ Brak połączenia z serwerem podczas usuwania.');
         }
     };
 
@@ -87,6 +142,32 @@ function AdminPanel({ onClassAdded }) {
                     </button>
                 </div>
             </form>
+
+            <hr className="admin-separator" />
+            <h3 className="admin-panel-tytul">Zarządzaj istniejącymi zajęciami</h3>
+
+            <div className="admin-lista-zajec">
+                {classesList.length === 0 ? (
+                    <p className="admin-pusta-lista">Brak zaplanowanych zajęć w bazie.</p>
+                ) : (
+                    classesList.map((c) => (
+                        <div key={c.id} className="admin-zajecia-item">
+                            <div className="admin-zajecia-info">
+                                <strong>{c.name}</strong> — Sala: {c.room} <br />
+                                <small>
+                                    {new Date(c.startTime).toLocaleString()} - {new Date(c.endTime).toLocaleTimeString()}
+                                </small>
+                            </div>
+                            <button
+                                onClick={() => handleDelete(c.id)}
+                                className="admin-btn-usun"
+                            >
+                                Usuń
+                            </button>
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     );
 }

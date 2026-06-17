@@ -1,4 +1,4 @@
-.admin-panel-kontener {
+﻿.admin-panel-kontener {
     background-color: var(--card-bg);
     border: 1px solid rgba(138, 43, 226, 0.15);
     border-radius: 16px;
@@ -35,36 +35,36 @@
     gap: 6px;
 }
 
-.admin-form-group label {
-   font-size: 0.75rem;
-   font-weight: 700;
-   color: var(--text-muted);
-   text-transform: uppercase;
-   letter-spacing: 0.5px;
-}
-
-.admin-form-group input {
-    background-color: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: 8px;
-    padding: 12px;
-    color: var(--text-h);
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-}
-
-.admin-form-group input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 10px var(--accent-glow);
+    .admin-form-group label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
+    .admin-form-group input {
+        background-color: var(--input-bg);
+        border: 1px solid var(--input-border);
+        border-radius: 8px;
+        padding: 12px;
+        color: var(--text-h);
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+    }
+
+        .admin-form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
 body.light-mode .admin-form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    filter: invert(0); 
+    filter: invert(0);
 }
 
 body:not(.light-mode) .admin-form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    filter: invert(1); 
+    filter: invert(1);
 }
 
 .admin-form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
@@ -100,7 +100,78 @@ body:not(.light-mode) .admin-form-group input[type="datetime-local"]::-webkit-ca
     transition: all 0.15s ease;
 }
 
-.admin-btn-wyslij:hover {
-    box-shadow: 0 4px 12px var(--accent-glow);
-    transform: translateY(-1px);
+    .admin-btn-wyslij:hover {
+        box-shadow: 0 4px 12px var(--accent-glow);
+        transform: translateY(-1px);
+    }
+
+/* ==========================================================================
+   🆕 NOWE STYLE DLA SEKCJI USUWANIA I LISTY ZAJĘĆ
+   ========================================================================== */
+
+.admin-separator {
+    border: 0;
+    height: 1px;
+    background: rgba(138, 43, 226, 0.2);
+    margin: 32px 0 24px 0;
 }
+
+.admin-lista-zajec {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-zajecia-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    transition: all 0.2s ease;
+}
+
+    .admin-zajecia-item:hover {
+        border-color: rgba(138, 43, 226, 0.3);
+        background-color: rgba(138, 43, 226, 0.02);
+    }
+
+.admin-zajecia-info {
+    color: var(--text-h);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-align: left;
+}
+
+    .admin-zajecia-info small {
+        color: var(--text-muted);
+    }
+
+.admin-pusta-lista {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-style: italic;
+    text-align: left;
+}
+
+.admin-btn-usun {
+    background-color: #ff4757;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    transition: all 0.15s ease;
+}
+
+    .admin-btn-usun:hover {
+        background-color: #ff6b81;
+        box-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
+        transform: translateY(-1px);
+    }
