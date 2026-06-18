@@ -7,56 +7,78 @@ function AdminPanel({ onClassAdded }) {
         room: '',
         maxCapacity: 10,
         startTime: '',
-        endTime: '',
+        durationMinutes: 60, 
         trainerId: 2
     });
+
     const [message, setMessage] = useState('');
-    const [classesList, setClassesList] = useState([]); 
+    const [classesList, setClassesList] = useState([]);
 
     const API_URL = 'https://localhost:7276/api/gymclasses';
 
-    // Funkcja pobierająca zajęcia 
+    // pobieranie zajec
     const fetchClasses = async () => {
         try {
             const response = await fetch(API_URL);
             if (response.ok) {
                 const data = await response.json();
-                setClassesList(data);
+                setClassesList(data); 
             }
         } catch (err) {
-            console.error("Błąd pobierania zajęć:", err);
+            console.error("Error fetching classes:", err);
         }
     };
 
-    // Pobranie danych na starcie komponentu
     useEffect(() => {
         fetchClasses();
     }, []);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: name === 'maxCapacity' || name === 'trainerId' ? parseInt(value) : value
+            [name]: name === 'maxCapacity' || name === 'trainerId' || name === 'durationMinutes' ? parseInt(value) : value
         });
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); 
         setMessage('');
+
+        // obliczanie czasu zakonczenia
+        const start = new Date(formData.startTime);
+        const end = new Date(start.getTime() + formData.durationMinutes * 60000);
+
+        const year = end.getFullYear();
+        const month = String(end.getMonth() + 1).padStart(2, '0');
+        const day = String(end.getDate()).padStart(2, '0');
+        const hours = String(end.getHours()).padStart(2, '0');
+        const minutes = String(end.getMinutes()).padStart(2, '0');
+        const formattedEndTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+
+        const payloadForBackend = {
+            name: formData.name,
+            room: formData.room,
+            maxCapacity: formData.maxCapacity,
+            startTime: formData.startTime,
+            endTime: formattedEndTime,
+            trainerId: formData.trainerId
+        };
 
         try {
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(payloadForBackend)
             });
 
             const text = await response.text();
 
             if (response.ok) {
                 setMessage('✅ Zajęcia zostały pomyślnie dodane do bazy danych!');
-                setFormData({ name: '', room: '', maxCapacity: 10, startTime: '', endTime: '', trainerId: 2 });
+                setFormData({ name: '', room: '', maxCapacity: 10, startTime: '', durationMinutes: 60, trainerId: 2 });
                 fetchClasses(); 
                 if (onClassAdded) onClassAdded();
             } else {
@@ -75,8 +97,9 @@ function AdminPanel({ onClassAdded }) {
         }
     };
 
-    // Funkcja usuwania zajęć
+    // usuwanie zajec
     const handleDelete = async (classId) => {
+        // okienko potwierdzające chęć usunięcia
         if (!window.confirm("Czy na pewno chcesz usunąć te zajęcia? Spowoduje to anulowanie rezerwacji uczestników.")) {
             return;
         }
@@ -101,10 +124,11 @@ function AdminPanel({ onClassAdded }) {
     };
 
     return (
-        <div className="admin-panel-kontener">
-            <h3 className="admin-panel-tytul">Panel Administratora: Dodaj nowe zajęcia</h3>
+        <div className="admin-panel-container">
+            <h3 className="admin-panel-title">Panel Administratora: Dodaj nowe zajęcia</h3>
 
-            <form onSubmit={handleSubmit} className="admin-formularz-siatka">
+            {/* formularz dodawania nowych zajęć */}
+            <form onSubmit={handleSubmit} className="admin-form-grid">
                 <div className="admin-form-group">
                     <label>Nazwa zajęć</label>
                     <input type="text" name="name" required value={formData.name} onChange={handleChange} />
@@ -131,37 +155,36 @@ function AdminPanel({ onClassAdded }) {
                 </div>
 
                 <div className="admin-form-group">
-                    <label>Czas zakończenia</label>
-                    <input type="datetime-local" name="endTime" required value={formData.endTime} onChange={handleChange} />
+                    <label>Czas trwania (w minutach)</label>
+                    <input type="number" name="durationMinutes" required min="1" value={formData.durationMinutes} onChange={handleChange} placeholder="np. 60" />
                 </div>
 
-                <div className="admin-form-dol">
-                    {message && <p className="admin-wiadomosc">{message}</p>}
-                    <button type="submit" className="admin-btn-wyslij">
-                        Dodaj do bazy danych
+                {/* dodanie zajęć*/}
+                <div className="admin-form-bottom">
+                    {message && <p className="admin-message">{message}</p>}
+                    <button type="submit" className="admin-btn-submit">
+                        Dodaj zajęcia do grafiku 
                     </button>
                 </div>
             </form>
 
             <hr className="admin-separator" />
-            <h3 className="admin-panel-tytul">Zarządzaj istniejącymi zajęciami</h3>
+            <h3 className="admin-panel-title">Zarządzaj istniejącymi zajęciami</h3>
 
-            <div className="admin-lista-zajec">
+            {/* lista zajec */}
+            <div className="admin-classes-list">
                 {classesList.length === 0 ? (
-                    <p className="admin-pusta-lista">Brak zaplanowanych zajęć w bazie.</p>
+                    <p className="admin-empty-list">Brak zaplanowanych zajęć w bazie.</p>
                 ) : (
                     classesList.map((c) => (
-                        <div key={c.id} className="admin-zajecia-item">
-                            <div className="admin-zajecia-info">
+                        <div key={c.id} className="admin-class-item">
+                            <div className="admin-class-info">
                                 <strong>{c.name}</strong> — Sala: {c.room} <br />
                                 <small>
-                                    {new Date(c.startTime).toLocaleString()} - {new Date(c.endTime).toLocaleTimeString()}
+                                    {new Date(c.startTime).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' })} - {new Date(c.endTime).toLocaleTimeString('pl-PL', { timeStyle: 'short' })}
                                 </small>
                             </div>
-                            <button
-                                onClick={() => handleDelete(c.id)}
-                                className="admin-btn-usun"
-                            >
+                            <button onClick={() => handleDelete(c.id)} className="admin-btn-delete">
                                 Usuń
                             </button>
                         </div>

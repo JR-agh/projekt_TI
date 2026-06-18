@@ -1,4 +1,4 @@
-﻿.admin-panel-kontener {
+﻿.admin-panel-container {
     background-color: var(--card-bg);
     border: 1px solid rgba(138, 43, 226, 0.15);
     border-radius: 16px;
@@ -8,7 +8,7 @@
     transition: background-color 0.3s ease;
 }
 
-.admin-panel-tytul {
+.admin-panel-title {
     font-size: 1.2rem;
     font-weight: 800;
     color: var(--text-h);
@@ -17,17 +17,26 @@
     letter-spacing: 0.5px;
 }
 
-.admin-formularz-siatka {
+
+.admin-separator {
+    border: 0;
+    height: 1px;
+    background: rgba(138, 43, 226, 0.2);
+    margin: 32px 0 24px 0;
+}
+
+.admin-form-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
 }
 
 @media (min-width: 768px) {
-    .admin-formularz-siatka {
+    .admin-form-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
+
 
 .admin-form-group {
     display: flex;
@@ -36,11 +45,11 @@
 }
 
 .admin-form-group label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+   font-size: 0.75rem;
+   font-weight: 700;
+   color: var(--text-muted);
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
 }
 
 .admin-form-group input {
@@ -51,6 +60,7 @@
     color: var(--text-h);
     font-size: 0.9rem;
     transition: all 0.2s ease;
+
 }
 
 .admin-form-group input:focus {
@@ -63,6 +73,7 @@ body.light-mode .admin-form-group input[type="datetime-local"]::-webkit-calendar
     filter: invert(0);
 }
 
+
 body:not(.light-mode) .admin-form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
 }
@@ -71,7 +82,7 @@ body:not(.light-mode) .admin-form-group input[type="datetime-local"]::-webkit-ca
     cursor: pointer;
 }
 
-.admin-form-dol {
+.admin-form-bottom {
     grid-column: 1 / -1;
     display: flex;
     justify-content: space-between;
@@ -79,13 +90,13 @@ body:not(.light-mode) .admin-form-group input[type="datetime-local"]::-webkit-ca
     margin-top: 12px;
 }
 
-.admin-wiadomosc {
+.admin-message {
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--text-h);
 }
 
-.admin-btn-wyslij {
+.admin-btn-submit {
     margin-left: auto;
     background: linear-gradient(90deg, #6c5ce7 0%, var(--accent) 100%);
     color: #ffffff;
@@ -100,25 +111,19 @@ body:not(.light-mode) .admin-form-group input[type="datetime-local"]::-webkit-ca
     transition: all 0.15s ease;
 }
 
-    .admin-btn-wyslij:hover {
-        box-shadow: 0 4px 12px var(--accent-glow);
-        transform: translateY(-1px);
-    }
-
-.admin-separator {
-    border: 0;
-    height: 1px;
-    background: rgba(138, 43, 226, 0.2);
-    margin: 32px 0 24px 0;
+.admin-btn-submit:hover {
+   box-shadow: 0 4px 12px var(--accent-glow);
+   transform: translateY(-1px);
 }
 
-.admin-lista-zajec {
+.admin-classes-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.admin-zajecia-item {
+
+.admin-class-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -129,30 +134,31 @@ body:not(.light-mode) .admin-form-group input[type="datetime-local"]::-webkit-ca
     transition: all 0.2s ease;
 }
 
-    .admin-zajecia-item:hover {
-        border-color: rgba(138, 43, 226, 0.3);
-        background-color: rgba(138, 43, 226, 0.02);
-    }
+.admin-class-item:hover {
+    border-color: rgba(138, 43, 226, 0.3);
+    background-color: rgba(138, 43, 226, 0.02);
+}
 
-.admin-zajecia-info {
+
+.admin-class-info {
     color: var(--text-h);
     font-size: 0.9rem;
     line-height: 1.4;
     text-align: left;
 }
 
-    .admin-zajecia-info small {
-        color: var(--text-muted);
-    }
+.admin-class-info small {
+   color: var(--text-muted);
+}
 
-.admin-pusta-lista {
+.admin-empty-list {
     color: var(--text-muted);
     font-size: 0.9rem;
     font-style: italic;
     text-align: left;
 }
 
-.admin-btn-usun {
+.admin-btn-delete {
     background-color: #ff4757;
     color: #ffffff;
     border: none;
@@ -166,8 +172,9 @@ body:not(.light-mode) .admin-form-group input[type="datetime-local"]::-webkit-ca
     transition: all 0.15s ease;
 }
 
-.admin-btn-usun:hover {
-    background-color: #ff6b81;
-    box-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
-    transform: translateY(-1px);
+
+.admin-btn-delete:hover {
+   background-color: #ff6b81;
+   box-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
+   transform: translateY(-1px);
 }
