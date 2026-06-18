@@ -22,7 +22,7 @@ npm run dev
 
 Po wykonaniu powyższych kroków należy wejść w ustawienia głównego rozwiązania i w zakładce *Startup project* zaznaczyć opcję *Multiple startup projects* oraz ustawić zarówno `GymApp.Server`, jak i `gymapp.client` na *start*. Od tego momentu naciśnięcie zielonej strzałki z napisem *Start* powinno uruchamiać aplikację.
 
-# Elementy dziłającej aplikacji
+# Elementy działającej aplikacji
 
 ## Ekran logowania
 
