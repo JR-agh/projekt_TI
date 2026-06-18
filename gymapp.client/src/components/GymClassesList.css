@@ -1,23 +1,22 @@
-/.grafik-kontener {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    margin-top: 12px;
-    font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;/
-    background-color: #110c1f;
-    padding: 30px; 
-    min-height: 100vh; 
-}
-
-.grafik-kontener {
+.schedule-container {
     display: flex;
     flex-direction: column;
     gap: 32px;
     margin-top: 24px;
     font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+    background-color: #110c1f;
+    padding: 30px;
+    min-height: 100vh;
 }
 
-.sekcja-tytul-glowny, .sekcja-tytul-niebieski {
+.loading-text {
+    color: #ffffff;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.section-title-main, .section-title-blue {
     font-size: 1.25rem;
     font-weight: 700;
     color: #ffffff;
@@ -26,23 +25,22 @@
     text-transform: none;
     text-align: left;
 }
-.sekcja-rezerwacji {
+
+.bookings-section {
     background: #16102b;
     border: 1px solid rgba(138, 43, 226, 0.2);
     border-radius: 12px;
     padding: 24px;
 }
 
-
-.siatka-rezerwacji, .siatka-zajec {
+.bookings-grid, .classes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
     gap: 16px;
 }
 
-
-.karta-zajec, .karta-rezerwacji {
-    background: #1a1333; 
+.class-card, .booking-card {
+    background: #1a1333;
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 20px;
@@ -52,22 +50,19 @@
     transition: all 0.2s ease-in-out;
 }
 
-
 .standard-border:hover {
     border-color: rgba(138, 43, 226, 0.6);
     box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
     transform: translateY(-2px);
 }
 
-
-.zapisany-border {
+.enrolled-border {
     border: 1px solid rgba(16, 185, 129, 0.3);
     border-left: 4px solid #10b981;
     background: #131b2e;
 }
 
-
-.nazwa-zajec {
+.class-name {
     font-size: 1.15rem;
     font-weight: 700;
     color: #ffffff;
@@ -75,26 +70,25 @@
     text-align: left;
 }
 
-.lokalizacja-sala {
+.class-room, .class-date {
     font-size: 0.85rem;
-    color: #a29bfe; 
+    color: #a29bfe;
     text-align: left;
 }
 
-.pogrubienie-ciemne {
+.bold-white {
     font-weight: 600;
     color: #ffffff;
     margin-left: 4px;
 }
 
-
-.dol-karty {
+.card-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     padding-top: 14px;
     margin-top: 16px;
 }
 
-.czas-zajec {
+.class-time {
     font-size: 0.85rem;
     color: #9ca3af;
     display: flex;
@@ -102,32 +96,30 @@
     margin-bottom: 12px;
 }
 
-.czas-zajec span {
-    font-weight: 600;
-    color: #ffffff;
+.class-time span {
+   font-weight: 600;
+   color: #ffffff;
 }
 
-
-.kontener-licznika {
+.counter-container {
     display: flex;
     justify-content: flex-start;
     margin: 4px 0 12px 0;
 }
 
-.badge-miejsca {
+.spots-badge {
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.2px;
 }
 
-.badge-wolne {
+.badge-available {
     color: #a29bfe;
 }
 
-.badge-pelno {
+.badge-full {
     color: #ef4444;
 }
-
 
 .btn-status {
     width: 100%;
@@ -140,34 +132,30 @@
     transition: all 0.15s ease;
 }
 
-
-.btn-zapisz {
+.btn-join {
     background: linear-gradient(90deg, #6c5ce7 0%, #8a2be2 100%);
     color: #ffffff;
 }
 
-.btn-zapisz:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 0 12px rgba(138, 43, 226, 0.4);
+.btn-join:hover {
+   filter: brightness(1.1);
+   box-shadow: 0 0 12px rgba(138, 43, 226, 0.4);
 }
 
-
-.btn-sukces {
+.btn-success {
     background: rgba(16, 185, 129, 0.15);
     color: #10b981;
     border: 1px solid rgba(16, 185, 129, 0.3);
     cursor: not-allowed;
 }
 
-
-.btn-zablokowany {
+.btn-locked {
     background: #241c3f;
     color: rgba(255, 255, 255, 0.25);
     cursor: not-allowed;
 }
 
-
-.przycisk-rezygnuj {
+.btn-cancel {
     width: 100%;
     margin-top: 10px;
     padding: 8px;
@@ -181,7 +169,7 @@
     transition: all 0.15s ease;
 }
 
-.przycisk-rezygnuj:hover {
+.btn-cancel:hover {
     background: rgba(239, 68, 68, 0.1);
     border-color: #ef4444;
 }
